@@ -1,0 +1,8 @@
+1. Where is the program or shell-script that copied these files? I could swear it was here...
+	(I remember it copied the files here, created a new git repo, committed them, then updated the files and made another commit so I could check the diffs)
+	UPDATE: Found it: https://gist.github.com/Jehoel/c5c952cf4a3b7574d20e51e8ab2f7d15
+	it's called `UpdateVSTemplates.ps1` on my computer! Renaming to `Update-VS2017Templates.ps1` so it shows up in Everything.exe better.
+
+2. Add `using System.Threading;` to all the files, because I need it for CancellationToken.
+
+3. Update the Console Project Program.cs to add the `public static class` and `public static void Main(String[] args)` changes.
