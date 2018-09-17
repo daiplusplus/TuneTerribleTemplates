@@ -14,6 +14,9 @@ namespace FixTerribleTemplates
 			// CBA to reimplement vswhere.exe: https://github.com/Microsoft/vswhere
 			// Do it manually or with command-line args:
 
+			// TODO: Are any templates in zip format? https://docs.microsoft.com/en-us/visualstudio/ide/how-to-update-existing-templates?view=vs-2017
+			// Don't forget to clear or refresh the template cache? (is that a thing needed at all? is that only for zip-based templates?)
+
 			List<String> fileNames;
 			{
 				DirectoryInfo[] roots = new DirectoryInfo[]
@@ -35,7 +38,7 @@ namespace FixTerribleTemplates
 			{
 				if( root.Exists )
 				{
-					GetFileNames( root.Name.Length, root, pathContainsTemplates: false, fileNames );
+					GetFileNames( root.FullName.Length, root, pathContainsTemplates: false, fileNames );
 				}
 			}
 
@@ -44,7 +47,7 @@ namespace FixTerribleTemplates
 
 		private static void GetFileNames(Int32 rootPrefixLength, DirectoryInfo directory, Boolean pathContainsTemplates, List<String> fileNames)
 		{
-			Boolean isTemplateDirectory = pathContainsTemplates || directory.Name.IndexOf( "templates", StringComparison.OrdinalIgnoreCase ) > -1;
+			Boolean isTemplateDirectory = pathContainsTemplates || directory.Name.IndexOf( "templates", StringComparison.OrdinalIgnoreCase ) > -1 || directory.Name.IndexOf( "items", StringComparison.OrdinalIgnoreCase ) > -1;
 
 			foreach( DirectoryInfo child in directory.GetDirectories() )
 			{
@@ -55,7 +58,12 @@ namespace FixTerribleTemplates
 			{
 				foreach( FileInfo file in directory.GetFiles("*.cs") )
 				{
-					fileNames.Add( file.FullName.Substring( startIndex: rootPrefixLength );
+					fileNames.Add( file.FullName.Substring( startIndex: rootPrefixLength ) );
+				}
+
+				foreach( FileInfo file in directory.GetFiles("*.zip") )
+				{
+					fileNames.Add( file.FullName.Substring( startIndex: rootPrefixLength ) );
 				}
 			}
 		}
